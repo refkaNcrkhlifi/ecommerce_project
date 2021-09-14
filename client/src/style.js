@@ -5,7 +5,10 @@ export default makeStyles((theme) => ({
     image: {
         width: "100%"
     },
-    // container: {
-    //     backgroundColor: grey[300]
-    // },
+    container: {
+        [theme.breakpoints.down('sm')]: {
+            marginLeft: "0px",
+            marginRight: "0px",
+        },
+    },
 }))

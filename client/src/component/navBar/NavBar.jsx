@@ -18,12 +18,7 @@ export default function NavBar({ showSideDrawer }) {
     <AppBar position="fixed" color="inherit" className={classes.appBar}>
       <Toolbar>
         <Typography variant="h6" color="textPrimary" className={classes.title}>
-          <img
-            src={commerce}
-            height="25px"
-            alt="RefNcr shop"
-            className={classes.image}
-          />
+          <img src={commerce} alt="RefNcr shop" className={classes.image} />
           RefNcr shop
         </Typography>
         <div className={classes.grow} />

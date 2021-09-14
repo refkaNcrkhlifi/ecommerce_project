@@ -8,7 +8,7 @@ import Drawer from '@material-ui/core/Drawer';
 import NavBar from "./component/navBar/NavBar";
 import Products from "./component/products/Products"
 import SideDrawer from "./component/sideDrawer/SideDrawer";
-import { Product } from "./component/product/Product";
+import { Product } from "./component/productScreen/Product";
 function App() {
   const classes = useStyle()
   const [products, setProducts] = useState([])
@@ -24,18 +24,16 @@ function App() {
   const showSideDrawer = () => setSideToggle(true)
   return (
     <Router>
-      <Container className={classes.container}>
-        <NavBar showSideDrawer={showSideDrawer} />
-        <SideDrawer show={sideToggle} setSideToggle={setSideToggle} />
-        <Switch>
-          <Route exact path="/"  >
-            <Products products={products} />
+      <NavBar showSideDrawer={showSideDrawer} />
+      <SideDrawer show={sideToggle} setSideToggle={setSideToggle} />
+      <Switch>
+        <Route exact path="/"  >
+          <Products products={products} />
 
-          </Route>
-          <Route exact path="/Cart" component={Cart} />
-          <Route exact path="/Product" component={Product} />
-        </Switch>
-      </Container>
+        </Route>
+        <Route exact path="/Cart" component={Cart} />
+        <Route exact path="/Product" component={Product} />
+      </Switch>
     </Router >
   );
 }
