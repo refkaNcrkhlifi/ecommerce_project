@@ -2,44 +2,51 @@ import { Box, IconButton, TextField, Typography } from '@material-ui/core'
 import React from 'react'
 import useStype from "./style"
 import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
+import { useDispatch } from 'react-redux';
+import { removeFromCart, addCquantity } from '../../../store/cart';
 
-const src = "https://images.unsplash.com/photo-1605787020600-b9ebd5df1d07?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1463&q=80"
 
-export const CartItem = () => {
+export const CartItem = ({ product }) => {
     const classes = useStype()
+    const dispatch = useDispatch()
+    const handeleDelteItm = () => {
+        dispatch(removeFromCart(product._id))
+    }
+    const handeleQtychange = (e) => {
+        const qty = e.target.value
+        dispatch(addCquantity(product._id, qty))
+    }
     return (
         <div>
             <Box p={1} m={1} bgcolor="background.paper" className={classes.cartItem} >
 
-                <img className={classes.image} src={src} alt="alt" />
+                <img className={classes.image} src={product.imageUrl} alt="alt" />
 
 
 
                 <Typography variant="h6" className={classes.title}>
-                    pruduct 1
+                    {product.name}
                 </Typography>
 
-
-                <Typography className={classes.price}>
-                    2550£
-                </Typography>
-
-
-                <Typography >
+                <Box className={classes.price}>
+                    <Typography >
+                        {product.price}£
+                    </Typography>
+                </Box>
+                <div className={classes.grow} />
+                <Box>
                     <TextField
                         className={classes.textField}
                         size="small"
                         id="Qty"
                         type="Number"
-                        defaultValue="1"
-                        // variant="outlined"
+                        onChange={handeleQtychange}
+                        value={product.qte}
                         inputProps={{ min: 1 }}
+
                     />
-                </Typography>
-
-
-                <div className={classes.grow} />
-                <IconButton >
+                </Box>
+                <IconButton onClick={handeleDelteItm} >
                     <DeleteOutlineIcon />
                 </IconButton>
 

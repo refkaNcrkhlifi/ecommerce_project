@@ -1,3 +1,16 @@
-import { configureStore } from "@reduxjs/toolkit"
-import reducer from "./product"
-export default configureStore({ reducer })
+import { configureStore, getDefaultMiddleware } from "@reduxjs/toolkit"
+import { combineReducers } from 'redux'
+
+import product from "./product"
+import cart from "./cart"
+
+const reducer = combineReducers({
+    product, cart
+})
+export default configureStore({
+    reducer,
+    middleware: getDefaultMiddleware =>
+        getDefaultMiddleware({
+            serializableCheck: false,
+        }),
+})
