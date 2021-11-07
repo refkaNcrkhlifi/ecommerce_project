@@ -11,7 +11,7 @@ const slice = createSlice({
             const item = action.payload
             const itemExsist = state.find((x) => x?._id === item?._id)
             if (itemExsist) {
-                return state.map((x) => x?._id === item?._id ? { ...item, qte: x.qte + 1 } : x)
+                return state.map((x) => x?._id === item?._id ? { ...item, qte: parseInt(x.qte) + parseInt(item.qte) } : x)
             } else state.push(item)
         },
         REMOVE_FROM_CART: (state, action) => {
@@ -20,7 +20,7 @@ const slice = createSlice({
         },
         ADD_QUANTITY: (state, action) => {
             const { id, qty } = action.payload
-            return state.map((x) => x?._id === id ? { ...x, qte: qty } : x)
+            return state.map((x) => x?._id === id ? { ...x, qte: parseInt(qty) } : x)
         },
         RESET_CART: (state, action) => {
             return []
@@ -34,11 +34,10 @@ export default slice.reducer
 // Actions
 const { ADD_TO_CART, REMOVE_FROM_CART, RESET_CART, ADD_QUANTITY } = slice.actions
 
-export const addToCart = (item) => async (dispatch, getState) => {
-
+export const addToCart = (item, qte) => async (dispatch, getState) => {
     dispatch({
         type: ADD_TO_CART,
-        payload: { ...item, qte: 1 }
+        payload: { ...item, qte: qte ? qte : 1 }
     })
     localStorage.setItem("cart", JSON.stringify(getState().cart))
 
@@ -52,7 +51,6 @@ export const removeFromCart = (id) => async (dispatch, getState) => {
     localStorage.setItem("cart", JSON.stringify(getState().cart))
 }
 export const addCquantity = (id, qty) => async (dispatch, getState) => {
-    console.log("dispa==========");
     dispatch({
         type: ADD_QUANTITY,
         payload: { id, qty }

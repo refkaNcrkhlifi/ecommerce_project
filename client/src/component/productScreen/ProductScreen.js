@@ -1,10 +1,18 @@
-import { Container, Grid, Grow, Paper, Box, Typography, TextField } from '@material-ui/core'
-import React from 'react'
+import { Container, Grid, Grow, Paper, Box, Typography, TextField, Button } from '@material-ui/core'
+import React, { useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { addToCart } from '../../store/cart'
 import useStyle from "./style"
 
-const src = "https://images.unsplash.com/photo-1605787020600-b9ebd5df1d07?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1463&q=80"
-export const Product = ({ product = {} }) => {
+export const ProductScreen = () => {
+    const [qty, setqty] = useState(1)
+    const product = useSelector((state) => state?.productDetails);
     const classes = useStyle()
+    const dispatch = useDispatch()
+
+    const handeleAddtoCART = () => {
+        dispatch(addToCart(product, qty))
+    }
     return (
 
         <Container >
@@ -12,24 +20,23 @@ export const Product = ({ product = {} }) => {
             <Grid container justify="space-between" alignItems="stretch" spacing={3}>
                 <Grid item xs={12} sm={6} >
                     <Paper variant="outlined" >
-                        <img className={classes.image} src={src} alt="alt" />
+                        <img className={classes.image} src={product.imageUrl} alt="alt" />
                     </Paper>
                 </Grid>
                 <Grid item xs={12} sm={3}>
                     <Box p={1} m={1} bgcolor="background.paper">
                         <Typography variant="h6" color="textPrimary">
-                            pruduct
+                            {product.name}
                         </Typography>
                     </Box>
                     <Box display="flex" p={1} m={1} bgcolor="background.paper">
                         <Typography >
-                            Price :2550£
+                            ${product?.price}
                         </Typography>
                     </Box>
                     <Box display="flex" p={1} m={1} bgcolor="background.paper">
-                        <Typography variant="subtitle1" paragraph>
-                            Discription :Welcome to a new era of iPhone. Beautifully bright 6.1-inch Super Retina XDR display.1 Ceramic Shield with 4x better drop performance.2 Incredible low-light photography with Night mode on all cameras. Cinema-grade Dolby Vision video recording, editing, and playback. Powerful A14 Bionic chip. And new MagSafe accessories for easy attach and faster wireless charging.3 Let the fun begin.
-                        </Typography>
+                        <Typography dangerouslySetInnerHTML={{ __html: product.description }} variant="body2" color="textSecondary" />
+
                     </Box>
 
                 </Grid>
@@ -42,7 +49,7 @@ export const Product = ({ product = {} }) => {
                         </Box>
                         <Box p={1} >
                             <Typography >
-                                2550£
+                                ${product?.price}
                             </Typography>
                         </Box>
                     </Box>
@@ -54,7 +61,7 @@ export const Product = ({ product = {} }) => {
                         </Box>
                         <Box p={1} >
                             <Typography >
-                                In Stock
+                                {product?.inStock === true ? "In Stock" : "not in stock"}
                             </Typography>
 
                         </Box>
@@ -71,10 +78,16 @@ export const Product = ({ product = {} }) => {
                                 id="Qty"
                                 label="Qty"
                                 type="Number"
-                                defaultValue="1"
+                                defaultValue={qty}
                                 variant="outlined"
                                 inputProps={{ min: 1 }}
+                                onChange={(e) => { setqty(e.target.value) }}
                             />
+                        </Box>
+                    </Box>
+                    <Box display="flex" p={1} m={1} bgcolor="background.paper">
+                        <Box p={1} >
+                            <Button variant="contained" className={classes.button} onClick={handeleAddtoCART}>Add to card</Button>
                         </Box>
                     </Box>
                 </Grid>

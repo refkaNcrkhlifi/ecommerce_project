@@ -4,6 +4,8 @@ import useStype from "./style"
 import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
 import { useDispatch } from 'react-redux';
 import { removeFromCart, addCquantity } from '../../../store/cart';
+import { addProductDetails } from '../../../store/product';
+import { Link } from 'react-router-dom';
 
 
 export const CartItem = ({ product }) => {
@@ -16,15 +18,19 @@ export const CartItem = ({ product }) => {
         const qty = e.target.value
         dispatch(addCquantity(product._id, qty))
     }
+    const handelProductClick = () => {
+        dispatch(addProductDetails(product))
+
+    }
     return (
         <div>
-            <Box p={1} m={1} bgcolor="background.paper" className={classes.cartItem} >
+            <Box p={1} m={1} bgcolor="background.paper" className={classes.cartItem} onClick={handelProductClick}  >
 
-                <img className={classes.image} src={product.imageUrl} alt="alt" />
+                <img className={classes.image} src={product.imageUrl} alt="alt" component={Link} to="/ProductScreen" />
 
 
 
-                <Typography variant="h6" className={classes.title}>
+                <Typography variant="h6" className={classes.title} component={Link} to="/ProductScreen">
                     {product.name}
                 </Typography>
 

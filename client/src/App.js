@@ -8,31 +8,33 @@ import Drawer from '@material-ui/core/Drawer';
 import NavBar from "./component/navBar/NavBar";
 import Products from "./component/products/Products"
 import SideDrawer from "./component/sideDrawer/SideDrawer";
-import { Product } from "./component/productScreen/Product";
+import { ProductScreen } from "./component/productScreen/ProductScreen";
+import { getProducts } from "./store/product";
+import { useDispatch } from "react-redux";
 function App() {
   const classes = useStyle()
-  const [products, setProducts] = useState([])
+  const dispatch = useDispatch()
   const [sideToggle, setSideToggle] = useState(false)
-  const fetchProdicts = async () => {
-    const { data } = await axios.get('http://localhost:3103/products')
-    setProducts(data)
-  }
+
 
   useEffect(() => {
-    fetchProdicts()
-  }, [])
+    dispatch(getProducts())
+  }, [dispatch])
+
+
   const showSideDrawer = () => setSideToggle(true)
+
   return (
     <Router>
       <NavBar showSideDrawer={showSideDrawer} />
       <SideDrawer show={sideToggle} setSideToggle={setSideToggle} />
       <Switch>
         <Route exact path="/"  >
-          <Products products={products} />
+          <Products />
 
         </Route>
         <Route exact path="/Cart" component={Cart} />
-        <Route exact path="/Product" component={Product} />
+        <Route exact path="/ProductScreen" component={ProductScreen} />
       </Switch>
     </Router >
   );
